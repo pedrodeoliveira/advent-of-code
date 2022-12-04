@@ -1,11 +1,11 @@
-import os
+
 
 if __name__ == "__main__":
 
     elf_max_calories = -1
     max_calories = -1
 
-    with open('input.txt', 'r') as f:
+    with open('../input.txt', 'r') as f:
 
         elf = 1
         calories = 0
