@@ -29,9 +29,37 @@ def convert(response):
         return 's'
 
 
+def convert_round_end(response):
+    if response == 'X':
+        return -1
+    elif response == 'Y':
+        return 0
+    else:
+        return 1
+
+
+def determine_move(p1, round_end):
+    if round_end == 0:
+        return p1
+    if round_end == -1:
+        if p1 == 'r':
+            return 's'
+        elif p1 == 'p':
+            return 'r'
+        else:
+            return 'p'
+    else:
+        if p1 == 'r':
+            return 'p'
+        elif p1 == 'p':
+            return 's'
+        else:
+            return 'r'
+
+
 if __name__ == "__main__":
 
-    with open('input.txt', 'r') as f:
+    with open('../../days_inputs/day-02.txt', 'r') as f:
 
         total_points = 0
         round_nr = 0
@@ -45,12 +73,14 @@ if __name__ == "__main__":
             round_nr += 1
 
             player1 = line_stripped[0]
-            player2 = line_stripped[2]
             player1 = convert(player1)
-            player2 = convert(player2)
+            round_end = line_stripped[2]
+            round_end = convert_round_end(round_end)
+            player2 = determine_move(player1, round_end)
 
             result = round_result(player1, player2)
-            print(f'{round_nr:4d} player1: {player1}, player2: {player2}, '
+            print(f'{round_nr:4d} player1: {player1}, round_end: {round_end:3d}, '
+                  f'player2: {player2}, '
                   f'result: {result}')
             total_points += result
 

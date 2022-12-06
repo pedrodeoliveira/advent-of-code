@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     calories_dict = {}
 
-    with open('input.txt', 'r') as f:
+    with open('../../days_inputs/day-01.txt', 'r') as f:
 
         elf = 1
         calories = 0

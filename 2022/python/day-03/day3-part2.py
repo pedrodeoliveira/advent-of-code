@@ -8,7 +8,7 @@ print(item_priorities)
 
 if __name__ == "__main__":
 
-    with open('input.txt', 'r') as f:
+    with open('../../days_inputs/day-03.txt', 'r') as f:
 
         total = 0
         line_nr = 0
