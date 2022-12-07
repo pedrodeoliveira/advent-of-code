@@ -38,14 +38,13 @@ if __name__ == "__main__":
     with open('../../days_inputs/day-07.txt', 'r') as f:
 
         directories = {
-            '/': {
+            '': {
                 'dirs': [],
                 'files': {}
             }
         }
         curr_dir = ''
 
-        # create initial stacks
         while True:
             line = f.readline()
             cmd = line.rstrip()
@@ -53,7 +52,6 @@ if __name__ == "__main__":
                 break
 
             if is_mv_root(cmd):
-                previous_dir = curr_dir
                 curr_dir = ''
                 continue
 
@@ -83,33 +81,40 @@ if __name__ == "__main__":
             if is_mv_dir(cmd):
                 dir_name = cmd.split()[2]
                 full_dir_name = f'{curr_dir}/{dir_name}'
-                previous_dir = curr_dir
                 curr_dir = full_dir_name
                 continue
 
         # pprint(directories)
 
+        # part 2
+        required_space = 30000000
+        # get the used space in the outermost directory
+        used_space = calculate_dir_size('')
+        total_space = 70000000
+        # calculated unused space and then the minimum space that has to be deleted
+        # for being able to make the update
+        unused_space = total_space - used_space
+        minimum_space_to_delete = required_space - unused_space
+
+        # initialize the minimum dir size found (for part 2 search) with a large number
+        min_size = total_space
+
+        # initialize the total size (for part 1)
         total = 0
+
         for dir_name in directories.keys():
             dir_size = calculate_dir_size(dir_name)
             # print(f'dir {dir_name}, size: {dir_size}')
+
+            # check if dir size is at most the threshold (part 1)
             if dir_size <= 100000:
-                # print(f' >> dir {dir_name}, size: {dir_size} < threshold')
                 total += dir_size
 
-        # part 1
-        print(f'total: {total}')
+            # check if dir size is the smallest dir with the required size (part 2)
+            if minimum_space_to_delete <= dir_size < min_size:
+                min_size = dir_size
+                print(f'[part2] found minimum size dir {dir_name} with {dir_size}')
 
-        # part 2
-        required_space = 30000000
-        used_space = calculate_dir_size('')
-        unused_space = 70000000 - used_space
-        min_size = 70000000
-        minimum_space_to_delete = required_space - unused_space
-
-        for dir_name in directories.keys():
-            dir_size = calculate_dir_size(dir_name)
-            if dir_size >= minimum_space_to_delete:
-                if dir_size < min_size:
-                    min_size = dir_size
-                    print(f'found minimum size dir {dir_name} with {dir_size}')
+        # part 1 - 2031851
+        print(f'[part1] total: {total}')
+        # part 2 - 2568781
